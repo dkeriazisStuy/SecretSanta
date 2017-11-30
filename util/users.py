@@ -1,3 +1,4 @@
+from paths import account_path
 from json import load, dump
 import os.path
 from os.path import realpath, dirname
@@ -8,7 +9,6 @@ import binascii
 from hashlib import sha256, sha512
 from random import choice
 from string import ascii_letters, digits, punctuation
-chars = ascii_letters + digits + punctuation
 
 
 def get_path(path):
@@ -16,7 +16,7 @@ def get_path(path):
 
 
 def get_users():
-    with open(get_path('../accounts.json')) as f:
+    with open(get_path(account_path)) as f:
         return load(f)
 
 
@@ -48,6 +48,7 @@ def _extend(key, num):
 def add_user(username, password):
     if user_exists(username):
         return
+    chars = ascii_letters + digits + punctuation
     users = get_users()
     salt = ''.join([choice(chars) for _ in range(8)])
     # Add user keys
@@ -66,7 +67,7 @@ def add_user(username, password):
                        'encrypt': public,
                        'decrypt': enc + ' ' + sym_salt}
     # Write new users
-    with open(get_path('../accounts.json'), 'w') as f:
+    with open(get_path(account_path), 'w') as f:
         dump(users, f)
 
 
@@ -93,15 +94,16 @@ def change_password(username, password, new_pass):
     if not check_user(username, password):
         return False
     users = get_users()
+    chars = ascii_letters + digits + punctuation
     salt = ''.join([choice(chars) for _ in range(8)])
     users[username]['pass'] = get_hash(new_pass, salt)
-    with open(get_path('../accounts.json'), 'w') as f:
+    with open(get_path(account_path), 'w') as f:
         dump(users, f)
     return True
 
 
 if __name__ == '__main__':
-    with open(get_path('../accounts.json'), 'w') as f:
+    with open(get_path(account_path), 'w') as f:
         f.write('{}')
     add_user('Alice', 'foo')
     add_user('Bob', 'foo')

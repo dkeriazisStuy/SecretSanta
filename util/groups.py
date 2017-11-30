@@ -129,6 +129,10 @@ def get_pair(user, password, code):
 
 
 if __name__ == '__main__':
+    from paths import data_path
+    from os import makedirs
+    if not os.path.exists(data_path):
+        makedirs(data_path)
     with open(get_path(group_path), 'w') as f:
         f.write('{}')
     add_group('Alice', 'A-F')

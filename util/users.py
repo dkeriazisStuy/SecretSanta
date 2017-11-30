@@ -45,7 +45,7 @@ def _extend(key, num):
     return key + ' ' * (num - len(key) % num)
 
 
-def add_user(username, password):
+def add_user(username, auth):
     if user_exists(username):
         return
     chars = ascii_letters + digits + punctuation
@@ -57,13 +57,13 @@ def add_user(username, password):
     public = key.publickey().exportKey().decode('utf-8')
     private = key.exportKey().decode('utf-8')
     sym_salt = ''.join([choice(chars) for _ in range(8)])
-    sym_key = _hash256(_hash256(password + sym_salt) + password + sym_salt)
+    sym_key = _hash256(_hash256(auth + sym_salt) + auth + sym_salt)
     for i in range(1000):
-        sym_key = _hash256(sym_key + password + sym_salt)
+        sym_key = _hash256(sym_key + auth + sym_salt)
     private = _extend(private, 16)
     enc = _encrypt(private, sym_key)
     # Modify users
-    users[username] = {'pass': get_hash(password, salt),
+    users[username] = {'pass': get_hash(auth, salt),
                        'encrypt': public,
                        'decrypt': enc + ' ' + sym_salt}
     # Write new users
@@ -71,11 +71,11 @@ def add_user(username, password):
         dump(users, f)
 
 
-def check_user(username, password):
+def check_user(username, auth):
     users = get_users()
     check = users[username]['pass']
     salt = check.split(' ')[1]
-    result = get_hash(password, salt)
+    result = get_hash(auth, salt)
     # Check to protect from length extension attacks
     if len(check) != len(result):
         return False
@@ -90,8 +90,8 @@ def user_exists(user):
     return user in get_users()
 
 
-def change_password(username, password, new_pass):
-    if not check_user(username, password):
+def change_password(username, auth, new_pass):
+    if not check_user(username, auth):
         return False
     users = get_users()
     chars = ascii_letters + digits + punctuation

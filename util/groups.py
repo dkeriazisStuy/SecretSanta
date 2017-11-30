@@ -108,23 +108,23 @@ def _decrypt(s, key):
     return cipher.decrypt(unhexlify(s)).decode('utf-8')
 
 
-def _retrieve(user, password, data):
+def _retrieve(user, auth, data):
     users = get_users()
     key = users[user]['decrypt']
     sym_dec = key.split(' ')[0]
     sym_salt = key.split(' ')[1]
-    sym_key = _hash256(_hash256(password + sym_salt) + password + sym_salt)
+    sym_key = _hash256(_hash256(auth + sym_salt) + auth + sym_salt)
     for i in range(1000):
-        sym_key = _hash256(sym_key + password + sym_salt)
+        sym_key = _hash256(sym_key + auth + sym_salt)
     private = RSA.importKey(_decrypt(sym_dec, sym_key))
     result = private.decrypt(unhexlify(data))
     return result
 
 
-def get_pair(user, password, code):
+def get_pair(user, auth, code):
     groups = get_groups()
     data = groups[code]['assigned'][user]
-    result = _retrieve(user, password, data)
+    result = _retrieve(user, auth, data)
     return result.decode('utf-8').split(' ')[0]
 
 

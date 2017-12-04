@@ -1,6 +1,11 @@
 function get_nonce() {
-    chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!\"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~";
+//    chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!\"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~";
+    chars = "1234";
     nonce = "";
+    for (int i = 0; i < 16; i++) {
+        nonce += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return nonce
 }
 
 function register() {
@@ -10,6 +15,7 @@ function register() {
     var username = $("#username").val();
     var email = $("#email").val();
     var password = $("#password").val();
+    console.log(get_nonce())
     post("signup.py", {data: "foobar"});
 }
 

@@ -2,10 +2,10 @@ import cgi
 import cgitb
 
 
-def init(debug=False):
+def init(debug_cgi=False):
     print('Content-Type: text/html\n')
     print()
-    if debug:
+    if debug_cgi:
         cgitb.enable()
 
 
@@ -15,10 +15,11 @@ def render_file(filename):
     print(text)
 
 
-def make_dict(field):
+def get_fields():
+    query = cgi.FieldStorage()
     field_dict = {}
-    for i in field.keys():
-        field_dict[i] = field[i].value
+    for i in query.keys():
+        field_dict[i] = query[i].value
     return field_dict
 
 

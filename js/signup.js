@@ -5,10 +5,7 @@ function register() {
     var username = $("#username").val();
     var email = $("#email").val();
     var password = $("#password").val();
-    $.post({
-        url: "signup.py",
-        data: "foobar"
-    });
+    post("signup.py", {data: "foobar"});
 }
 
 function user_exists(user, f_success, f_fail) {

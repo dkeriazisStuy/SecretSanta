@@ -14,7 +14,11 @@ function register() {
     var username = $("#username").val();
     var email = $("#email").val();
     var password = $("#password").val();
-    post("signup.py", {data: "foobar"});
+    nonce = get_nonce();
+    var h = new jsSHA("SHA3-512", "TEXT");
+    h.update(password + nonce);
+    var hash = h.getHash("HEX");
+    post("signup.py", {username: username, email: email, key: hash, nonce: nonce});
 }
 
 function user_exists(user, f_success, f_fail) {

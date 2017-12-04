@@ -5,7 +5,18 @@ function register() {
     var username = $("#username").val();
     var email = $("#email").val();
     var password = $("#password").val();
-    alert("It's alive");
+    $.ajax({
+        dataType: "html",
+        type: "POST",
+        url: "signup.py",
+//        success: function(o) {
+//            if (user in o) {
+//                f_success();
+//            } else {
+//                f_fail();
+//            }
+//        },
+    });
 }
 
 function user_exists(user, f_success, f_fail) {

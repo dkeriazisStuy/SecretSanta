@@ -23,4 +23,4 @@ def make_dict(field):
 
 
 def debug(text):
-    print('<script type="text/javascript">' + text + "</script>")
+    print('<script type="text/javascript">console.log("' + text + '")</script>')

@@ -1,3 +1,8 @@
+function get_nonce() {
+    chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!\"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~";
+    nonce = "";
+}
+
 function register() {
     if (! (validateUser() && emailCheck() && passCheck() && passMatchCheck())) {
         return

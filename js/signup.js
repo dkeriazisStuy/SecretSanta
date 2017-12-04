@@ -16,7 +16,7 @@ function register() {
     var email = $("#email").val();
     var password = $("#password").val();
     console.log(get_nonce())
-    post("signup.py", {data: "foobar"});
+//    post("signup.py", {data: "foobar"});
 }
 
 function user_exists(user, f_success, f_fail) {

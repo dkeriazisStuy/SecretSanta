@@ -7,7 +7,7 @@ function register() {
     var password = $("#password").val();
     $.post({
         url: "signup.py",
-        data: "foobar",
+        data: "foobar"
     });
 }
 

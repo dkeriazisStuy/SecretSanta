@@ -20,3 +20,7 @@ def make_dict(field):
     for i in field.keys():
         field_dict[i] = field[i].value
     return field_dict
+
+
+def debug(text):
+    print('<script type="text/javascript">' + text + "</script>")

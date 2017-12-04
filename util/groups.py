@@ -10,6 +10,9 @@ from random import choice
 from string import ascii_letters, digits, punctuation
 from random import shuffle
 
+salt_chars = ascii_letters + digits + punctuation
+base64 = ascii_letters + digits + '_-'
+
 
 def get_path(path):
     return os.path.join(dirname(realpath(__file__)), path)
@@ -35,7 +38,6 @@ def _hash256(s):
 
 def add_group(user, group_name, expiration=None):
     groups = get_groups()
-    base64 = ascii_letters + digits + '_-'
     code = ''.join([choice(base64) for _ in range(16)])
     while code in groups:
         code = ''.join([choice(base64) for _ in range(16)])
@@ -102,8 +104,8 @@ def join_group(user, code):
         dump(groups, f)
 
 
-def _decrypt(s, key):
-    iv = b'\x00' * 16
+def _decrypt(s, iv, key):
+    iv = unhexlify(iv)
     cipher = AES.new(bytes(bytearray.fromhex(key)), AES.MODE_CBC, iv)
     return cipher.decrypt(unhexlify(s)).decode('utf-8')
 
@@ -112,11 +114,12 @@ def _retrieve(user, auth, data):
     users = get_users()
     key = users[user]['decrypt']
     sym_dec = key.split(' ')[0]
-    sym_salt = key.split(' ')[1]
+    sym_iv = key.split(' ')[1]
+    sym_salt = key.split(' ')[2]
     sym_key = _hash256(_hash256(auth + sym_salt) + auth + sym_salt)
     for i in range(1000):
         sym_key = _hash256(sym_key + auth + sym_salt)
-    private = RSA.importKey(_decrypt(sym_dec, sym_key))
+    private = RSA.importKey(_decrypt(sym_dec, sym_iv, sym_key))
     result = private.decrypt(unhexlify(data))
     return result
 
@@ -131,6 +134,7 @@ def get_pair(user, auth, code):
 if __name__ == '__main__':
     from paths import data_path
     from os import makedirs
+
     if not os.path.exists(data_path):
         makedirs(data_path)
     with open(get_path(group_path), 'w') as f:

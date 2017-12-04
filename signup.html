@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>StuySanta</title>
+    <link rel="shortcut icon" href="img/favicon.ico"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+
+            <form class="form-horizontal" action="" method="POST">
+                <fieldset>
+                    <div id="legend">
+                        <legend class="">Register</legend>
+                        <p class="help-block">Already have an account? <a href="login.html">Log in!</a> </p>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="username">Username</label>
+                        <div class="controls">
+                            <input type="text" id="username" name="username" placeholder=""
+                                   class="form-control input-lg">
+                            <div class="has-error">
+                                <span class="help-block" id="invalidUsername"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="email">Email</label>
+                        <div class="controls">
+                            <input type="email" id="email" name="email" placeholder="" class="form-control input-lg">
+                            <div class="has-error">
+                                <span class="help-block" id="invalidEmail"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="password">Password</label>
+                        <div class="controls">
+                            <input type="password" id="password" name="password" placeholder=""
+                                   class="form-control input-lg">
+                            <div class="has-error">
+                                <span class="help-block" id="invalidPass"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="password_confirm">Password (Confirm)</label>
+                        <div class="controls">
+                            <input type="password" id="password_confirm" name="password_confirm" placeholder=""
+                                   class="form-control input-lg">
+                            <div class="has-error">
+                                <span class="help-block" id="passUnmatched"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <!-- Button -->
+                        <div class="controls">
+                            <input type="button" value="Register" class="btn btn-success" id="regButton">
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<!--JS -->
+<!--<script src="util/__javascript__/foo.js"></script>-->
+<script src="js/signup.js"></script>
+</body>
+</html>

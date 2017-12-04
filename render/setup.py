@@ -1,7 +1,7 @@
 from distutils.core import setup
 
 setup(
-    name='Render',
+    name='render',
     version='1.0.0',
     packages=['render', 'render.test'],
     url='',

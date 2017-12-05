@@ -25,3 +25,7 @@ def get_fields():
 
 def debug(text):
     print('<script type="text/javascript">console.log("' + text + '")</script>')
+
+
+def redirect(url):
+    print('<script type="text/javascript">window.location = "' + url + '";</script>')

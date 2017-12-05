@@ -96,7 +96,7 @@ function validateEmail() {
 function emailCheck() {
     var email = $("#email").val();
     var success = function() {
-        $("$invalidEmail").html("Email is already taken");
+        $("#invalidEmail").html("Email is already taken");
         return false;
     }
     return email_exists(email, success, validateEmail);

@@ -39,6 +39,29 @@ function user_exists(user, f_success, f_fail) {
     });
 }
 
+function email_exists(email, f_success, f_fail) {
+    return $.ajax({
+        dataType: "json",
+        type: "POST",
+        url: "data/accounts.json",
+        success: function(o) {
+            users = Object.keys(o);
+            exists = false;
+            for (i = 0; i < users.length; i++) {
+                if (email === o[users[i]]['email']) {
+                    exists = true;
+                    break;
+                }
+            }
+            if (exists) {
+                f_success();
+            } else {
+                f_fail();
+            }
+        },
+    });
+}
+
 function validateUser() {
     var username = $("#username").val();
     if (! /^[a-zA-Z0-9_-]*$/.test(username)) {
@@ -59,7 +82,7 @@ function usernameCheck() {
     return user_exists(username, success, validateUser);
 }
 
-function emailCheck() {
+function validateEmail() {
     var email = $("#email").val();
     if (email.indexOf("@") == -1) {
         $("#invalidEmail").html("Invalid email address");
@@ -68,6 +91,15 @@ function emailCheck() {
         $("#invalidEmail").html("");
         return true;
     }
+}
+
+function emailCheck() {
+    var email = $("#email").val();
+    var success = function() {
+        $("$invalidEmail").html("Email is already taken");
+        return false;
+    }
+    return email_exists(email, success, validateEmail);
 }
 
 function passCheck() {
@@ -110,5 +142,6 @@ $(document).ready(function () {
 });
 
 document.getElementById("regButton").addEventListener("click", function() {
-    user_exists($("#username").val(), function(){}, register);
+    user_exists($("#username").val(), function(){},
+        email_exists($("#email").val(), function(){}, register));
 }, false);

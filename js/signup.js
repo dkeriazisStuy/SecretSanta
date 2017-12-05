@@ -147,5 +147,5 @@ $(document).ready(function () {
 
 document.getElementById("regButton").addEventListener("click", function() {
     user_exists($("#username").val(), function(){},
-        email_exists($("#email").val(), function(){}, register));
+        function(){email_exists($("#email").val(), function(){}, register)});
 }, false);

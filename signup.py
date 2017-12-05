@@ -14,6 +14,8 @@ def main():
         nonce = fields['nonce']
     except KeyError:
         return  # TODO: Render "something went wrong" page
+    print(key, '<br>')
+    print(nonce, '<br><br>')
     add_user(username, email, key, nonce)
     # print("Account created")
 

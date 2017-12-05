@@ -1,4 +1,4 @@
-from paths import account_path
+from .paths import account_path
 from json import load, dump
 import os.path
 from os.path import realpath, dirname
@@ -47,8 +47,8 @@ def _extend(key, num):
     return key + ' ' * (num - len(key) % num)
 
 
-def add_user(username, email, auth):
-    if user_exists(username):
+def add_user(username, email, auth, nonce=''):
+    if user_exists(username) or email_exists(email):
         return
     users = get_users()
     salt = ''.join([choice(salt_chars) for _ in range(8)])
@@ -64,7 +64,8 @@ def add_user(username, email, auth):
     private = _extend(private, 16)
     enc = _encrypt(private, sym_key)
     # Modify users
-    users[username] = {'pass': get_hash(auth, salt),
+    users[username] = {'pass': get_hash(_hash(auth + nonce), salt),
+                       'nonce': nonce,
                        'email': email,
                        'encrypt': public,
                        'decrypt': enc + ' ' + sym_salt}
@@ -77,7 +78,8 @@ def check_user(username, auth):
     users = get_users()
     check = users[username]['pass']
     salt = check.split(' ')[1]
-    result = get_hash(auth, salt)
+    nonce = users[username]['nonce']
+    result = get_hash(_hash(auth + nonce), salt)
     # Check to protect from length extension attacks
     if len(check) != len(result):
         return False
@@ -119,7 +121,7 @@ def change_password(username, auth, new_pass):
 
 
 if __name__ == '__main__':
-    from paths import data_path
+    from .paths import data_path
     from os import makedirs
 
     if not os.path.exists(data_path):

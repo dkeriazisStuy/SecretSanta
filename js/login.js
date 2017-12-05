@@ -28,7 +28,7 @@ function login() {
                     }
                 }
                 if (equality) {
-                    console.log("Correct!");
+                    $("#invalidCredentials").html("Correct!");
                 } else {
                     $("#invalidCredentials").html("Username or password incorrect");
                 }

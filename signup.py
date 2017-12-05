@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import render
-from util import add_user
+from util import add_user, remember
 
 render.init()
 
@@ -15,7 +15,11 @@ def main():
     except KeyError:
         return render.redirect('error.html')
     add_user(username, email, key, nonce)
-    print("Account created")
+    if 'series_id' in fields and 'token' in fields:
+        series_id = fields['series_id']
+        token = fields['token']
+        remember(username, series_id, token)
+    render.redirect('home.html')
 
 
 main()

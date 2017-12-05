@@ -1,7 +1,6 @@
-from .paths import account_path, group_path
+from .paths import account_path, group_path, get_path
 from json import load, dump
 import os.path
-from os.path import realpath, dirname
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import AES
 from binascii import hexlify, unhexlify
@@ -12,10 +11,6 @@ from random import shuffle
 
 salt_chars = ascii_letters + digits + punctuation
 base64 = ascii_letters + digits + '_-'
-
-
-def get_path(path):
-    return os.path.join(dirname(realpath(__file__)), path)
 
 
 def get_groups():

@@ -1,7 +1,6 @@
-from .paths import account_path
+from .paths import account_path, get_path
 from json import load, dump
 import os.path
-from os.path import realpath, dirname
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import AES
 from Crypto import Random
@@ -11,10 +10,6 @@ from random import choice
 from string import ascii_letters, digits, punctuation
 
 salt_chars = ascii_letters + digits + punctuation
-
-
-def get_path(path):
-    return os.path.join(dirname(realpath(__file__)), path)
 
 
 def get_users():
@@ -118,6 +113,24 @@ def change_password(username, auth, new_pass):
     with open(get_path(account_path), 'w') as f:
         dump(users, f)
     return True
+
+
+def remember(username, series_id, token):
+    users = get_users()
+    users[username]['series_id'] = series_id
+    users[username]['token'] = _hash(token)
+
+
+def check_remember(username, series_id, token):
+    users = get_users()
+    if 'series_id' in users[username] and users[username]['series_id'] == series_id:
+        if users[username]['token'] == _hash(token):
+            token = ''.join([choice(salt_chars) for _ in range(16)])
+            remember(username, series_id, token)
+            return True
+        else:
+            return False  # TODO: Implement warnings and cool-down for forged token
+    return False
 
 
 if __name__ == '__main__':

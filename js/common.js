@@ -28,9 +28,9 @@ function post(path, params, method) {
     form.submit();
 }
 
-function setCookie(name, value, millis) {
+function setCookie(name, value, days) {
     var d = new Date();
-    d.setTime(d.getTime() + millis);
+    d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
     var expires = "expires=" + d.toGMTString();
     document.cookie = name + "=" + value + ";" + expires + ";path=/";
 }
@@ -49,4 +49,17 @@ function getCookie(name) {
         }
     }
     return "";
+}
+
+function checkCookies() {
+    series_id = getCookie("series_id");
+    token = getCookie("token");
+    $.ajax({
+        dataType: "json",
+        type: "POST",
+        url: "data/accounts.json",
+        success: function(o) {
+
+        }
+    });
 }

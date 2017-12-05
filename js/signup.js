@@ -16,10 +16,16 @@ function register() {
     var password = $("#password").val();
     var nonce = get_nonce();
     var h = hash(password + nonce);
+    var series_id = get_nonce();
+    var token = get_nonce();
+    setCookie("series_id", series_id, 30);
+    setCookie("token", token, 30);
     post("signup.py", {username: username,
                        email: email,
                        key: h,
-                       nonce: nonce});
+                       nonce: nonce,
+                       series_id: series_id,
+                       token: token});
 }
 
 function user_exists(user, f_success, f_fail) {

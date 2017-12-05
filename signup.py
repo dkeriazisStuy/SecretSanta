@@ -13,8 +13,7 @@ def main():
         key = fields['key']
         nonce = fields['nonce']
     except KeyError:
-        render.redirect('error.html')
-        return
+        return render.redirect('error.html')
     add_user(username, email, key, nonce)
     print("Account created")
 

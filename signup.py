@@ -2,7 +2,7 @@
 import render
 from util import add_user, remember
 
-render.init()
+render.init(True)
 
 
 def main():

@@ -1,28 +1,27 @@
-from .users import salt_chars
+from .users import salt_chars, get_users
 from .hash import hex_hash
-from .paths import token_path, get_path
+from .paths import account_path, get_path
 from random import choice
 
-from json import load
+from json import dump
 
 
-def get_tokens():
-    with open(get_path(token_path)) as f:
-        return load(f)
+def remember(username, series_id, series_token):
+    users = get_users()
+    users[username]['series_id'] = series_id
+    users[username]['series_token'] = series_token
+    with open(get_path(account_path)) as f:
+        dump(users, f)
 
 
-def remember(username, series_id, token):
-    tokens = get_tokens()
-    tokens[series_id] = {'token': hex_hash(token), 'username': username}
-
-
-def check_remember(username, series_id, token):
-    tokens = get_tokens()
-    if series_id in tokens:
-        if tokens[series_id] == hex_hash(token):
-            token = ''.join([choice(salt_chars) for _ in range(16)])
-            remember(username, series_id, token)
-            return True
-        else:
-            return False  # TODO: Implement warnings and cool-down for forged token
+def check_remember(series_id, series_token):
+    users = get_users()
+    for user in users:
+        if user['series_id'] == series_id:
+            if user['series_token'] == hex_hash(series_token):
+                new_token = ''.join(choice(salt_chars) for i in range(16))
+                remember(user, series_id, new_token)
+                return True
+            else:
+                return False  # TODO: Implement warnings and cool-down for forged token
     return False

@@ -47,7 +47,7 @@ def _extend(key, num):
     return key + ' ' * (num - len(key) % num)
 
 
-def add_user(username, auth):
+def add_user(username, email, auth):
     if user_exists(username):
         return
     users = get_users()
@@ -65,6 +65,7 @@ def add_user(username, auth):
     enc = _encrypt(private, sym_key)
     # Modify users
     users[username] = {'pass': get_hash(auth, salt),
+                       'email': email,
                        'encrypt': public,
                        'decrypt': enc + ' ' + sym_salt}
     # Write new users
@@ -89,6 +90,14 @@ def check_user(username, auth):
 
 def user_exists(user):
     return user in get_users()
+
+
+def email_exists(email):
+    users = get_users()
+    for user in users:
+        if users[user]['email'] == email:
+            return True
+    return False
 
 
 def delete_user(user):
@@ -117,12 +126,16 @@ if __name__ == '__main__':
         makedirs(data_path)
     with open(get_path(account_path), 'w') as f:
         f.write('{}')
-    add_user('Alice', 'foo')
-    add_user('Bob', 'foo')
-    add_user('Charlie', 'foo')
-    add_user('Delta', 'bar')
-    add_user('Echo', 'bar')
-    add_user('Foxtrot', 'foobar')
+    add_user('Alice', 'alice@example.com', 'foo')
+    add_user('Bob', 'bob@example.com', 'foo')
+    add_user('Charlie', 'charlie@example.com', 'foo')
+    add_user('Delta', 'delta@example.com', 'bar')
+    add_user('Echo', 'echo@example.com', 'bar')
+    add_user('Foxtrot', 'foxtrot@example.com', 'foobar')
+    add_user('Golf', 'golf@example.com', 'baz')
+    print(email_exists('golf@example.com'))
+    delete_user('Golf')
+    print(email_exists('golf@example.com'))
     print(check_user('Alice', 'Foo'))
     print(check_user('Alice', 'foo'))
     print(check_user('Bob', 'Foo'))

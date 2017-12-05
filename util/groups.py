@@ -1,4 +1,4 @@
-from paths import account_path, group_path
+from .paths import account_path, group_path
 from json import load, dump
 import os.path
 from os.path import realpath, dirname
@@ -132,7 +132,7 @@ def get_pair(user, auth, code):
 
 
 if __name__ == '__main__':
-    from paths import data_path
+    from .paths import data_path
     from os import makedirs
 
     if not os.path.exists(data_path):

@@ -1,6 +1,6 @@
 function get_nonce() {
-    chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!\"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~";
-    nonce = "";
+    var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!\"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~";
+    var nonce = "";
     for (i = 0; i < 16; i++) {
         nonce += chars.charAt(Math.floor(Math.random() * chars.length));
     }
@@ -14,7 +14,7 @@ function register() {
     var username = $("#username").val();
     var email = $("#email").val();
     var password = $("#password").val();
-    nonce = get_nonce();
+    var nonce = get_nonce();
     var h = hash(password + nonce);
     post("signup.py", {username: username,
                        email: email,

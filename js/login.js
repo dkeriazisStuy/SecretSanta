@@ -19,9 +19,8 @@ function login() {
                 var nonce = o[username]["nonce"];
                 var check = o[username]["pass"];
                 var salt = check.split(" ")[1];
-                var result = get_hash(hash(password + nonce), salt);
-                console.log(check);
-                console.log(result);
+                var auth = hash(password + nonce);
+                var result = get_hash(hash(auth + nonce), salt);
                 // Check to protect from length extension attacks
                 if (check.length != result.length) {
                     return false;

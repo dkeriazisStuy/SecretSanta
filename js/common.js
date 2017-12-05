@@ -1,3 +1,9 @@
+function hash(s) {
+    var h = new jsSHA("SHA3-512", "TEXT");
+    h.update(s);
+    return h.getHash("HEX");
+}
+
 function post(path, params, method) {
     method = method || "post"; // Set method to post by default if not specified.
 

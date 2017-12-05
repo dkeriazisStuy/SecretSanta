@@ -15,12 +15,10 @@ function register() {
     var email = $("#email").val();
     var password = $("#password").val();
     nonce = get_nonce();
-    var h = new jsSHA("SHA3-512", "TEXT");
-    h.update(password + nonce);
-    var hash = h.getHash("HEX");
+    var h = hash(password + nonce);
     post("signup.py", {username: username,
                        email: email,
-                       key: hash,
+                       key: h,
                        nonce: nonce});
 }
 

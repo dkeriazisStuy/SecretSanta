@@ -1,5 +1,5 @@
 function hash(s) {
-    var h = new jsSHA("SHA3-512", "TEXT");
+    var h = new jsSHA("SHA-512", "TEXT");
     h.update(s);
     return h.getHash("HEX");
 }

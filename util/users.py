@@ -28,6 +28,11 @@ def _hash(s):
 
 def get_hash(s, salt):
     result = _hash(_hash(s + salt) + s + salt)
+    print(s)
+    print(salt)
+    print(s + salt)
+    print(_hash(s))
+    print(_hash(s + salt))
     for i in range(1000):
         result = _hash(result + s + salt)
     return result + ' ' + salt

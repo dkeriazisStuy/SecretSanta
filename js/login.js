@@ -12,9 +12,9 @@ function login() {
                 var h = hash(password + nonce);
                 var check = o[username]["pass"];
                 var salt = check.split(" ")[1];
-                var result = hash(hash(password + salt) + password + salt);
+                var result = hash(hash(h + salt) + h + salt);
                 for (i = 0; i < 1000; i++){
-                    result = hash(result + password + salt);
+                    result = hash(result + h + salt);
                 }
                 result += ' ' + salt;
                 // Check to protect from length extension attacks

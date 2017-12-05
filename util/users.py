@@ -1,4 +1,5 @@
-from util import account_path, get_path, hex_hash, hex_hash256
+from .paths import account_path, get_path
+from .hash import hex_hash, hex_hash256
 from json import load, dump
 import os.path
 from Crypto.PublicKey import RSA

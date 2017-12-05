@@ -1,4 +1,6 @@
-from util import salt_chars, token_path, get_path, hex_hash
+from .users import salt_chars
+from .hash import hex_hash
+from .paths import token_path, get_path
 from random import choice
 
 from json import load

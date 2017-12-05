@@ -1,4 +1,4 @@
-from .paths import account_path, group_path, get_path
+from util import account_path, group_path, get_path
 from json import load, dump
 import os.path
 from Crypto.PublicKey import RSA

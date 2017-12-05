@@ -1,11 +1,10 @@
-from .paths import account_path, get_path
+from util import account_path, get_path, hex_hash, hex_hash256
 from json import load, dump
 import os.path
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import AES
 from Crypto import Random
 import binascii
-from hashlib import sha256, sha512
 from random import choice
 from string import ascii_letters, digits, punctuation
 
@@ -17,19 +16,11 @@ def get_users():
         return load(f)
 
 
-def _hash(s):
-    return sha512(s.encode('utf-8')).hexdigest()
-
-
 def get_hash(s, salt):
-    result = _hash(_hash(s + salt) + s + salt)
+    result = hex_hash(hex_hash(s + salt) + s + salt)
     for i in range(1000):
-        result = _hash(result + s + salt)
+        result = hex_hash(result + s + salt)
     return result + ' ' + salt
-
-
-def _hash256(s):
-    return sha256(s.encode('utf-8')).hexdigest()
 
 
 def _encrypt(s, key):
@@ -53,13 +44,13 @@ def add_user(username, email, auth, nonce=''):
     public = key.publickey().exportKey().decode('utf-8')
     private = key.exportKey().decode('utf-8')
     sym_salt = ''.join([choice(salt_chars) for _ in range(8)])
-    sym_key = _hash256(_hash256(auth + sym_salt) + auth + sym_salt)
+    sym_key = hex_hash256(hex_hash256(auth + sym_salt) + auth + sym_salt)
     for i in range(1000):
-        sym_key = _hash256(sym_key + auth + sym_salt)
+        sym_key = hex_hash256(sym_key + auth + sym_salt)
     private = _extend(private, 16)
     enc = _encrypt(private, sym_key)
     # Modify users
-    users[username] = {'pass': get_hash(_hash(auth + nonce), salt),
+    users[username] = {'pass': get_hash(hex_hash(auth + nonce), salt),
                        'nonce': nonce,
                        'email': email,
                        'encrypt': public,
@@ -74,7 +65,7 @@ def check_user(username, auth):
     check = users[username]['pass']
     salt = check.split(' ')[1]
     nonce = users[username]['nonce']
-    result = get_hash(_hash(auth + nonce), salt)
+    result = get_hash(hex_hash(auth + nonce), salt)
     # Check to protect from length extension attacks
     if len(check) != len(result):
         return False
@@ -113,24 +104,6 @@ def change_password(username, auth, new_pass):
     with open(get_path(account_path), 'w') as f:
         dump(users, f)
     return True
-
-
-def remember(username, series_id, token):
-    users = get_users()
-    users[username]['series_id'] = series_id
-    users[username]['token'] = _hash(token)
-
-
-def check_remember(username, series_id, token):
-    users = get_users()
-    if 'series_id' in users[username] and users[username]['series_id'] == series_id:
-        if users[username]['token'] == _hash(token):
-            token = ''.join([choice(salt_chars) for _ in range(16)])
-            remember(username, series_id, token)
-            return True
-        else:
-            return False  # TODO: Implement warnings and cool-down for forged token
-    return False
 
 
 if __name__ == '__main__':

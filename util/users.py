@@ -35,6 +35,7 @@ def get_hash(s, salt):
     print(_hash(s + salt))
     for i in range(1000):
         result = _hash(result + s + salt)
+    print(result + ' ' + salt)
     return result + ' ' + salt
 
 

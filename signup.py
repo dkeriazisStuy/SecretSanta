@@ -15,7 +15,7 @@ def main():
     except KeyError:
         return  # TODO: Render "something went wrong" page
     add_user(username, email, key, nonce)
-    print("Account created")
+    # print("Account created")
 
 
 main()

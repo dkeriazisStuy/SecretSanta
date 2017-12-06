@@ -93,7 +93,7 @@ function checkCookies() {
                         setCookie("series_token", new_token, 30);
                         console.log("Match!");
                         console.log(username);
-                        post("home.py", {username: users[i],
+                        post("home.py", {username: username,
                                          series_id: series_id,
                                          series_token: new_token});
                     } else {

@@ -7,6 +7,15 @@ function get_salt() {
     return nonce
 }
 
+function get_base64() {
+    var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_";
+    var result = "";
+    for (i = 0; i < 16; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
+}
+
 function hash(s) {
     var h = new jsSHA("SHA-512", "TEXT");
     h.update(s);
@@ -72,7 +81,7 @@ function checkCookies() {
             for (i = 0; i < users.length; i++) {
                 if (o[users[i]]["series_id"] == series_id) {
                     if (o[users[i]]["series_token"] == hash(token)) {
-                        var new_token = get_salt();
+                        var new_token = get_base64(); 
                         setCookie("series_id", series_id, 30);
                         setCookie("series_token", new_token, 30);
                         post("home.py", {username: users[i],

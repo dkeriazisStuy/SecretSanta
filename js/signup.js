@@ -7,8 +7,8 @@ function register() {
     var password = $("#password").val();
     var nonce = get_salt();
     var h = hash(password + nonce);
-    var series_id = get_salt();
-    var token = get_salt();
+    var series_id = get_base64();
+    var token = get_base64();
     setCookie("series_id", series_id, 30);
     setCookie("series_token", token, 30);  // TODO: Fix URI malformed (Error is probably here)
     post("signup.py", {username: username,

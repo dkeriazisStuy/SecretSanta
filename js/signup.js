@@ -10,7 +10,7 @@ function register() {
     var series_id = get_salt();
     var token = get_salt();
     setCookie("series_id", series_id, 30);
-    setCookie("token", token, 30);
+    setCookie("series_token", token, 30);
     post("signup.py", {username: username,
                        email: email,
                        key: h,

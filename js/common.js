@@ -62,7 +62,7 @@ function getCookie(name) {
 
 function checkCookies() {
     var series_id = getCookie("series_id");
-    var token = getCookie("token");
+    var token = getCookie("series_token");
     $.ajax({
         dataType: "json",
         type: "POST",
@@ -70,8 +70,13 @@ function checkCookies() {
         success: function(o) {
             var users = Object.keys(o);
             for (i = 0; i < users.length; i++) {
-                if (users[i]["series_id"] == series_id) {
-                    if (users[i]["series_token"] == hash(token)) {
+                console.log(users[i]);
+                console.log(o[users[i]]);
+                console.log(o[users[i]]["series_id"]);
+                if (o[users[i]]["series_id"] == series_id) {
+                    console.log("ID found");
+                    if (o[users[i]]["series_token"] == hash(token)) {
+                        console.log("Token matches");
                         var new_token = get_salt();
                         setCookie("series_id", series_id, 30);
                         setCookie("series_token", new_token, 30);

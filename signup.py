@@ -15,9 +15,9 @@ def main():
     except KeyError:
         return render.redirect('error.html')
     add_user(username, email, key, nonce)
-    if 'series_id' in fields and 'token' in fields:
+    if 'series_id' in fields and 'series_token' in fields:
         series_id = fields['series_id']
-        token = fields['token']
+        token = fields['series_token']
         remember(username, series_id, token)
     render.redirect('home.html')
 

@@ -101,7 +101,7 @@ function checkCookies() {
                     }
                 }
             }
-            if (match) {
+            if (!match) {
                 console.log("About to redirect..."); // TODO: Fix async call
                 // window.location = "main.html";
             }

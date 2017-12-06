@@ -93,17 +93,17 @@ function checkCookies() {
                         setCookie("series_token", new_token, 30);
                         console.log("Match!");
                         console.log(username);
-//                        post("home.py", {username: users[i],
-//                                         series_id: series_id,
-//                                         series_token: new_token});
+                        post("home.py", {username: users[i],
+                                         series_id: series_id,
+                                         series_token: new_token});
                     } else {
                         return false;  // TODO: Implement warnings and cool-down for forged token
                     }
                 }
             }
             if (!match) {
-                console.log("About to redirect..."); // TODO: Fix async call
-                // window.location = "main.html";
+                console.log("About to redirect...");
+                 window.location = "main.html";
             }
         }
     });

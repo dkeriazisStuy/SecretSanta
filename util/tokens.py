@@ -9,7 +9,7 @@ from json import dump
 def remember(username, series_id, series_token):
     users = get_users()
     users[username]['series_id'] = series_id
-    users[username]['series_token'] = series_token
+    users[username]['series_token'] = hex_hash(series_token)
     with open(get_path(account_path), 'w') as f:
         dump(users, f)
 

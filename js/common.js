@@ -70,13 +70,8 @@ function checkCookies() {
         success: function(o) {
             var users = Object.keys(o);
             for (i = 0; i < users.length; i++) {
-                console.log(users[i]);
-                console.log(o[users[i]]);
-                console.log(o[users[i]]["series_id"]);
                 if (o[users[i]]["series_id"] == series_id) {
-                    console.log("ID found");
                     if (o[users[i]]["series_token"] == hash(token)) {
-                        console.log("Token matches");
                         var new_token = get_salt();
                         setCookie("series_id", series_id, 30);
                         setCookie("series_token", new_token, 30);
@@ -88,7 +83,7 @@ function checkCookies() {
                     }
                 }
             }
-            return false;
+            window.location = "main.html";
         }
     });
 }

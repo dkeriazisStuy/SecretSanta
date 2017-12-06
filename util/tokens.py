@@ -19,7 +19,7 @@ def check_remember(series_id, series_token):
     for user in users:
         if user['series_id'] == series_id:
             if user['series_token'] == hex_hash(series_token):
-                new_token = ''.join(choice(salt_chars) for i in range(16))
+                new_token = ''.join(choice(salt_chars) for _ in range(16))
                 remember(user, series_id, new_token)
                 return True
             else:

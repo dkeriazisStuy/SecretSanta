@@ -1,12 +1,3 @@
-function get_nonce() {
-    var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!\"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~";
-    var nonce = "";
-    for (i = 0; i < 16; i++) {
-        nonce += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return nonce
-}
-
 function register() {
     if (! (validateUser() && emailCheck() && passCheck() && passMatchCheck())) {
         return
@@ -14,10 +5,10 @@ function register() {
     var username = $("#username").val();
     var email = $("#email").val();
     var password = $("#password").val();
-    var nonce = get_nonce();
+    var nonce = get_salt();
     var h = hash(password + nonce);
-    var series_id = get_nonce();
-    var token = get_nonce();
+    var series_id = get_salt();
+    var token = get_salt();
     setCookie("series_id", series_id, 30);
     setCookie("token", token, 30);
     post("signup.py", {username: username,
@@ -25,7 +16,7 @@ function register() {
                        key: h,
                        nonce: nonce,
                        series_id: series_id,
-                       token: token});
+                       series_token: token});
 }
 
 function user_exists(user, f_success, f_fail) {

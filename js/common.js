@@ -1,3 +1,12 @@
+function get_salt() {
+    var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!\"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~";
+    var nonce = "";
+    for (i = 0; i < 16; i++) {
+        nonce += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return nonce
+}
+
 function hash(s) {
     var h = new jsSHA("SHA-512", "TEXT");
     h.update(s);
@@ -52,14 +61,29 @@ function getCookie(name) {
 }
 
 function checkCookies() {
-    series_id = getCookie("series_id");
-    token = getCookie("token");
+    var series_id = getCookie("series_id");
+    var token = getCookie("token");
     $.ajax({
         dataType: "json",
         type: "POST",
         url: "data/accounts.json",
         success: function(o) {
-
+            var users = Object.keys(o);
+            for (i = 0; i < users.length; i++) {
+                if (users[i]["series_id"] == series_id) {
+                    if (users[i]["series_token"] == hash(token)) {
+                        var new_token = get_salt();
+                        setCookie("series_id", series_id, 30);
+                        setCookie("series_token", new_token, 30);
+                        post("home.py", {username: users[i],
+                                         series_id: series_id,
+                                         series_token: new_token});
+                    } else {
+                        return false;  // TODO: Implement warnings and cool-down for forged token
+                    }
+                }
+            }
+            return false;
         }
     });
 }

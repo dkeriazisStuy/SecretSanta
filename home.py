@@ -8,11 +8,12 @@ render.init()
 def main():
     render.render_file("home.html")
     fields = render.get_fields()
-    if 'series_id' in fields and 'token' in fields and 'username' in fields:
+    if 'series_id' in fields and 'series_token' in fields and 'username' in fields:
         series_id = fields['series_id']
-        token = fields['token']
+        series_token = fields['series_token']
         username = fields['username']
-        remember(username, series_id, token)
+        remember(username, series_id, series_token)
+        render.debug("New token generated")
 
 
 main()

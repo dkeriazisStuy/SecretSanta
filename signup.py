@@ -18,8 +18,10 @@ def main():
     if 'series_id' in fields and 'series_token' in fields:
         series_id = fields['series_id']
         token = fields['series_token']
+        print(series_id, '<br>')
+        print(token, '<br>')
         remember(username, series_id, token)
-    render.redirect('home.html')
+    # render.redirect('home.html')
 
 
 main()

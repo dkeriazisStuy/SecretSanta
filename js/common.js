@@ -77,13 +77,20 @@ function checkCookies() {
         type: "POST",
         url: "data/accounts.json",
         success: function(o) {
+            console.log(o)
             var users = Object.keys(o);
             for (i = 0; i < users.length; i++) {
                 if (o[users[i]]["series_id"] == series_id) {
+                    console.log("ID Found");
+                    console.log(series_id);
+                    console.log(token);
+                    var username = users[i];
                     if (o[users[i]]["series_token"] == hash(token)) {
                         var new_token = get_base64(); 
                         setCookie("series_id", series_id, 30);
                         setCookie("series_token", new_token, 30);
+                        console.log("Match!");
+                        console.log(username);
                         post("home.py", {username: users[i],
                                          series_id: series_id,
                                          series_token: new_token});
@@ -92,7 +99,8 @@ function checkCookies() {
                     }
                 }
             }
-            window.location = "main.html";
+            console.log("About to redirect..."); // TODO: Fix asynch call
+            // window.location = "main.html";
         }
     });
 }

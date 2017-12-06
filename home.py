@@ -2,12 +2,13 @@
 import render
 from util import remember
 
-render.init()
+render.init(True)
 
 
 def main():
-    render.render_file("home.html")
+    # render.render_file("home.html")
     fields = render.get_fields()
+    render.debug(str(fields))
     if 'series_id' in fields and 'series_token' in fields and 'username' in fields:
         series_id = fields['series_id']
         series_token = fields['series_token']

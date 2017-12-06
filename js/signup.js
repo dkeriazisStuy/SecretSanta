@@ -11,6 +11,8 @@ function register() {
     var token = get_base64();
     setCookie("series_id", series_id, 30);
     setCookie("series_token", token, 30);  // TODO: Fix URI malformed (Error is probably here)
+    console.log(series_id);
+    console.log(token);
     post("signup.py", {username: username,
                        email: email,
                        key: h,

@@ -32,7 +32,13 @@ function login() {
                     }
                 }
                 if (equality) {
-                    $("#invalidCredentials").html("Correct!");
+                    var series_id = get_base64();
+                    var series_token = get_base64();
+                    setCookie("series_id", series_id, 30);
+                    setCookie("series_token", series_token, 30);
+                    post("home.py", {username: username,
+                                     series_id: series_id,
+                                     series_token: series_token});
                 } else {
                     $("#invalidCredentials").html("Username or password incorrect");
                 }

@@ -8,17 +8,17 @@ function register() {
     var nonce = get_salt();
     var h = hash(password + nonce);
     var series_id = get_base64();
-    var token = get_base64();
+    var series_token = get_base64();
     setCookie("series_id", series_id, 30);
-    setCookie("series_token", token, 30);  // TODO: Fix URI malformed (Error is probably here)
-    console.log(series_id);
-    console.log(token);
+    setCookie("series_token", series_token, 30);
+//    console.log(series_id);
+//    console.log(series_token);
     post("signup.py", {username: username,
                        email: email,
                        key: h,
                        nonce: nonce,
                        series_id: series_id,
-                       series_token: token});
+                       series_token: series_token});
 }
 
 function user_exists(user, f_success, f_fail) {

@@ -84,7 +84,7 @@ function checkCookies() {
                 if (! ("series" in o[users[i]])) {
                     continue;
                 }
-                if (series_id not in o[users[i]]["series"]) {
+                if (! (series_id in o[users[i]]["series"])) {
                     continue;
                 }
 //              console.log("ID Found");

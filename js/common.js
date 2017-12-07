@@ -81,24 +81,28 @@ function checkCookies() {
             var users = Object.keys(o);
             var match = false;
             for (i = 0; i < users.length; i++) {
-                if (o[users[i]]["series_id"] == series_id) {
-//                    console.log("ID Found");
-//                    console.log(series_id);
-//                    console.log(token);
-                    var username = users[i];
-                    if (o[users[i]]["series_token"] == hash(token)) {
-                        match = true;
-                        var new_token = get_base64(); 
-                        setCookie("series_id", series_id, 30);
-                        setCookie("series_token", new_token, 30);
-//                        console.log("Match!");
-//                        console.log(username);
-                        post("home.py", {username: username,
-                                         series_id: series_id,
-                                         series_token: new_token});
-                    } else {
-                        return false;  // TODO: Implement warnings and cool-down for forged token
-                    }
+                if (! ("series" in o[users[i]])) {
+                    continue;
+                }
+                if (series_id not in o[users[i]]["series"]) {
+                    continue;
+                }
+//              console.log("ID Found");
+//              console.log(series_id);
+//              console.log(token);
+                var username = users[i];
+                if (o[users[i]]["series"][series_id] == hash(token)) {
+                    match = true;
+                    var new_token = get_base64();
+                    setCookie("series_id", series_id, 30);
+                    setCookie("series_token", new_token, 30);
+//                  console.log("Match!");
+//                  console.log(username);
+                    post("home.py", {username: username,
+                                     series_id: series_id,
+                                     series_token: new_token});
+                } else {
+                    return false;  // TODO: Implement warnings and cool-down for forged token
                 }
             }
             if (!match) {

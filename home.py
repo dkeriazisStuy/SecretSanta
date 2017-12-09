@@ -1,23 +1,39 @@
 #!/usr/bin/env python3
 import render
-from util import remember, add_group
+from util import remember, add_group, add_user, get_groups
 
 render.init(True)
 
 
+def call(func):
+    try:
+        func()
+    except KeyError:
+        pass
+
+
 def main():
     fields = render.get_fields()
-    # render.debug(str(fields))
-    username = ""
-    if 'series_id' in fields and 'series_token' in fields and 'username' in fields:
-        series_id = fields['series_id']
-        series_token = fields['series_token']
+
+    try:
         username = fields['username']
-        remember(username, series_id, series_token)
-        # render.debug("New token generated")
-    if 'username' in fields and 'group_name' in fields and 'group_description' in fields:
-        add_group(fields['username'], fields['group_name'], fields['group_description'])
-    render.render_file("home.html", username=username, groups="<ul><li>Hi</li></ul>")
+    except KeyError:
+        return render.redirect('error.html')
+
+    call(lambda: add_user(username, fields['email'], fields['key'], fields['nonce']))
+    call(lambda: remember(username, fields['series_id'], fields['series_token']))
+    call(lambda: add_group(username, fields['group_name'], fields['group_description']))
+
+    group_str = '<ul>'
+    groups = get_groups()
+    for code in get_groups():
+        if username in groups[code]['users']:
+            group_str += '<li>'
+            group_str += groups[code]['name']
+            group_str += '</li>'
+    group_str += '</ul>'
+
+    render.render_file("home.html", username=username, groups=group_str)
 
 
 main()

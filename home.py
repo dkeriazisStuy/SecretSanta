@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import render
-from util import remember
+from util import remember, add_group
 
 render.init(True)
 
@@ -15,6 +15,8 @@ def main():
         username = fields['username']
         remember(username, series_id, series_token)
         # render.debug("New token generated")
+    if 'username' in fields and 'group_name' in fields and 'group_description' in fields:
+        add_group(fields['username'], fields['group_name'], fields['group_description'])
 
 
 main()

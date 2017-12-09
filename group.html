@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>StuySanta</title>
+    <link rel="shortcut icon" href="img/favicon.ico"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+
+            <form class="form-horizontal" action="" method="POST">
+                <fieldset>
+                    <div id="legend">
+                        <legend class="">Create A New Group</legend>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="name">Group Name</label>
+                        <div class="controls">
+                            <input type="text" id="name" name="name" placeholder=""
+                                   class="form-control input-lg">
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="description">Description</label>
+                        <div class="controls">
+                            <textarea id="description" name="description" class="form-control input-lg"></textarea>
+                        </div>
+                        <span class="help-block"></span>
+                    </div>
+
+                    <div class="control-group">
+                        <!-- Button -->
+                        <div class="controls">
+                            <input type="button" value="Create Group" class="btn btn-success" id="addGroup">
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<!--JS -->
+<script type="text/javascript" src="js/sha.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript" src="js/signup.js"></script>
+</body>
+</html>

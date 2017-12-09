@@ -31,16 +31,15 @@ def _hash256(s):
     return sha256(s.encode('utf-8')).hexdigest()
 
 
-def add_group(user, group_name, expiration=None):
+def add_group(user, group_name, group_description=''):
     groups = get_groups()
     code = ''.join([choice(base64) for _ in range(16)])
     while code in groups:
         code = ''.join([choice(base64) for _ in range(16)])
-    groups[code] = {'name': group_name,
-                    'users': [user],
-                    'open': True}
-    if expiration is not None:
-        groups[code]['expiration'] = expiration
+    groups[_hash(code)] = {'name': group_name,
+                           'users': [user],
+                           'description': group_description,
+                           'open': True}
     with open(get_path(group_path), 'w') as f:
         dump(groups, f)
 
@@ -93,6 +92,9 @@ def close_group(code):
 
 def join_group(user, code):
     groups = get_groups()
+    if _hash(code) not in groups:
+        return
+    code = _hash(code)
     if groups[code]['open']:
         groups[code]['users'].append(user)
     with open(get_path(group_path), 'w') as f:

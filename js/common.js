@@ -69,7 +69,7 @@ function getCookie(name) {
     return "";
 }
 
-function checkCookies() {
+function checkCookies(f_success, f_fail) {
     var series_id = getCookie("series_id");
     var token = getCookie("series_token");
     $.ajax({
@@ -98,17 +98,27 @@ function checkCookies() {
                     setCookie("series_token", new_token, 30);
 //                  console.log("Match!");
 //                  console.log(username);
-                    post("home.py", {username: username,
-                                     series_id: series_id,
-                                     series_token: new_token});
+                    f_success(username, series_id, new_token);
                 } else {
                     return false;  // TODO: Implement warnings and cool-down for forged token
                 }
             }
             if (!match) {
 //                console.log("About to redirect...");
-                 window.location = "main.html";
+                f_fail();
             }
         }
     });
+}
+
+function cookiesMain() {
+    f_success = function(username, series_id, new_token) {
+        post("home.py", {username: username,
+                         series_id: series_id,
+                         series_token: new_token});
+    }
+    f_fail = function() {
+        window.location = "main.html";
+    }
+    checkCookies(f_success, f_fail);
 }

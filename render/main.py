@@ -9,9 +9,11 @@ def init(debug_cgi=False):
         cgitb.enable()
 
 
-def render_file(filename):
+def render_file(filename, **kwargs):
     with open(filename) as f:
         text = f.read()
+    if kwargs:
+        text = text.format(**kwargs)
     print(text)
 
 

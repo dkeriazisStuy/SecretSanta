@@ -13,7 +13,7 @@ function register() {
     setCookie("series_token", series_token, 30);
 //    console.log(series_id);
 //    console.log(series_token);
-    post("signup.py", {username: username,
+    post("home.py", {username: username,
                        email: email,
                        key: h,
                        nonce: nonce,

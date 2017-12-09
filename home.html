@@ -1,11 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
     <title>StuySanta</title>
     <link rel="shortcut icon" href="img/favicon.ico"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-    You are logged in!
+
+Welcome, {username} <br><br>
+
+<form class="form-horizontal" action="" method="POST">
+    <fieldset>
+        <div id="legend">
+            <legend class="">Groups</legend>
+        </div>
+        <b>Create A New Group</b>
+        <!-- Button -->
+        <input type="button" value="+" class="btn btn-success" id="addGroup">
+        {groups}
+    </fieldset>
+</form>
+
+
+<!--JS -->
+<script type="text/javascript" src="js/sha.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+<script type="text/javascript" src="js/home.js"></script>
 </body>
 </html>

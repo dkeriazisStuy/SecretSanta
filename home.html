@@ -11,19 +11,22 @@
 </head>
 <body>
 
-Welcome, {username} <br><br>
+<div class="col-md-6">
+    Welcome, {username} <br><br>
 
-<form class="form-horizontal" action="" method="POST">
-    <fieldset>
-        <div id="legend">
-            <legend class="">Groups</legend>
-        </div>
-        <b>Create A New Group</b>
-        <!-- Button -->
-        <input type="button" value="+" class="btn btn-success" id="addGroup">
-        {groups}
-    </fieldset>
-</form>
+    <form class="form-horizontal" action="" method="POST">
+        <fieldset>
+            <div id="legend">
+                <legend class="">Groups</legend>
+            </div>
+            <b>Create A New Group</b>
+            <!-- Button -->
+            <input type="button" value="+" class="btn btn-success" id="addGroup">
+            <br>
+            {groups}
+        </fieldset>
+    </form>
+</div>
 
 
 <!--JS -->

@@ -8,6 +8,7 @@ render.init(True)
 def main():
     fields = render.get_fields()
     # render.debug(str(fields))
+    username = ""
     if 'series_id' in fields and 'series_token' in fields and 'username' in fields:
         series_id = fields['series_id']
         series_token = fields['series_token']
@@ -16,7 +17,7 @@ def main():
         # render.debug("New token generated")
     if 'username' in fields and 'group_name' in fields and 'group_description' in fields:
         add_group(fields['username'], fields['group_name'], fields['group_description'])
-    render.render_file("home.html", username=fields['username'], groups="<ul><li>Hi</li></ul>")
+    render.render_file("home.html", username=username, groups="<ul><li>Hi</li></ul>")
 
 
 main()
